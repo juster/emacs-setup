@@ -51,7 +51,7 @@
 ;; YASnippet
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (yas/initialize)
-(yas/load-directory "~/emacs/yasnippet/snippets")
+(yas/load-directory "~/emacs/snippets")
 
 ;; PHP-Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
