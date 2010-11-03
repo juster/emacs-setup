@@ -28,29 +28,6 @@
 ;; (tool-bar-mode  -1)		; Don't show the toolbar, never use it
 (add-hook 'term-mode-hook (lambda () (term-set-escape-char ?\C-x)))
 
-;; MEW
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'load-path "~/emacs/mew")
-(autoload 'mew "mew" nil t)
-(autoload 'mew-send "mew" nil t)
-
-;; Optional setup (Read Mail menu for Emacs 21):
-(if (boundp 'read-mail-command)
-    (setq read-mail-command 'mew))
-
-;; Optional setup (e.g. C-xm for sending a message):
-(autoload 'mew-user-agent-compose "mew" nil t)
-(if (boundp 'mail-user-agent)
-    (setq mail-user-agent 'mew-user-agent))
-(if (fboundp 'define-mail-user-agent)
-    (define-mail-user-agent
-      'mew-user-agent
-      'mew-user-agent-compose
-      'mew-draft-send-message
-      'mew-draft-kill
-      'mew-send-hook))
-
 ;; Lua mode
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
