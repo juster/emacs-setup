@@ -1,14 +1,14 @@
 ;; Library loading
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq load-path
-      (append load-path "~/emacs/egg" "~/emacs/yasnippet"))
+      (append load-path '("~/emacs" "~/emacs/egg" "~/emacs/yasnippet")))
 (require 'ibuffer)
 (require 'perlhacks)                    ; load my own hacks
 (require 'egg)                          ; load Emacs Got Git
 (require 'yasnippet)
 
 ;; My own EMUD project, should probably move under this ~/emacs dir...
-(when (file-name-exists-p (expand-file-name "~/projects/emud"))
+(when (file-exists-p (expand-file-name "~/projects/emud"))
   (add-to-list 'load-path "~/projects/emud")
   (require 'emud))
 
