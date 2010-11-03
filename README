@@ -9,7 +9,9 @@ file. The cross-platform code goes into emascrc.el. I clone this
 repo into my ~/emacs directory and off I go! At least I hope so.
 
 In my ~/.emacs file all I do is this:
-(load "emacs/emacsrc.el")
+(setq emacs-setup-dir "~/emacs")
+(load "/emacs/emacs-setup"))
+(load "screensetup"))
 
 * Screen
 
@@ -21,11 +23,6 @@ and create a new screen for the emacsclient.
 
 Maybe one day I will copy/paste the following webpage for reference:
 http://taint.org/wk/RemoteLoginAutoScreen
-
-* Bugs
-
-This won't work on Windows because the ~/emacs directory is hard-coded.
-I will have to work on that next time I use Windows.
 
 * Author
 
