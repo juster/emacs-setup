@@ -1,7 +1,13 @@
 ;; Library loading
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default emacs-setup-dir "~/emacs-setup")
+
 (setq load-path
-      (append load-path '("~/emacs" "~/emacs/egg" "~/emacs/yasnippet")))
+      (append load-path
+              (list emacs-setup-dir)
+              (mapcar (lambda (path)
+                        (concat emacs-setup-dir "/" path))
+                      '( "egg" "yasnippet"))))
 (require 'ibuffer)
 (require 'perlhacks)                    ; load my own hacks
 (require 'egg)                          ; load Emacs Got Git
