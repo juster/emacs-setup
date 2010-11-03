@@ -1,0 +1,12 @@
+#key: inc::
+#contributor: juster at cpan
+# --
+inc::Module::Install;
+
+name         '$1';
+all_from     '${1:$(perl-dist-mod-path text)}';
+author       'Justin Davis <juster@cpan.org>';
+license      'perl';
+repository   '${1:$(concat "http://github.com/juster/perl-" (downcase text))}';
+
+WriteAll;

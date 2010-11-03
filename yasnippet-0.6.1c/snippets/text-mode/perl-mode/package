@@ -1,0 +1,11 @@
+#name : package ...;
+#contributor : juster at cpan
+# --
+package ${1:`(perl-buffer-module-name)`};
+
+use warnings;
+use strict;
+
+$0
+
+1;

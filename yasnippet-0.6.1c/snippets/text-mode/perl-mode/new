@@ -1,0 +1,9 @@
+#name : sub new { my $class = shift; ... }
+# --
+new
+{
+    my $class = shift;
+
+    $0
+    bless { }, $class;
+}
