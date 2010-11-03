@@ -1,0 +1,3 @@
+[submodule "egg"]
+	path = egg
+	url = http://github.com/bogolisk/egg.git
