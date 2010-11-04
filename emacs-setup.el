@@ -79,3 +79,4 @@
   (add-to-list 'load-path "~/projects/emud")
   (require 'emud))
 
+(server-start) ; emacs server rocks!
