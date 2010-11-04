@@ -395,7 +395,6 @@ is used."
     (move-to-column ptcol)))
 
 (defalias 'perl-mode 'cperl-mode)
-(provide 'perlhacks)
 
 (setq cperl-close-paren-offset          0
       cperl-continued-brace-offset     -4
@@ -407,3 +406,5 @@ is used."
       cperl-label-offset                t
       cperl-merge-trailing-else         nil
       cperl-tab-always-indent           t)
+
+(provide 'perlhacks)
