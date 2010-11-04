@@ -72,7 +72,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'perlhacks)
+(load "perl-setup")
 
 ;; My own EMUD project, should probably move under this ~/emacs dir...
 (when (file-exists-p (expand-file-name "~/projects/emud"))
