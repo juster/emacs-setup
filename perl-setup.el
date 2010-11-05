@@ -74,23 +74,33 @@ Will not move the position at the start to the left."
 ;; (add-hook 'cperl-mode-hook 'cperl-hacks-hook)
 
 (defun split-path (file-path)
-  (if (not file-path) '()
-    (let ((nondir (file-name-nondirectory
-                   (directory-file-name file-path))))
-      (if (> (length nondir) 0)
-          (append (split-path
-                   (file-name-directory
-                    (directory-file-name file-path)))
-                  (list nondir))
-        (list (convert-standard-filename "/"))))))
+"Splits the path string FILE-PATH into a list of directories and a file.
+
+If FILE-PATH ends in a forward-slash the result is still the same.
+If FILE-PATH is absolute, the first element of the result is \"/\".
+If FILE-PATH is a tramp path, the first element of the result is
+a tramp prefix.
+"
+  (if (zerop (length file-path)) '()
+    ;; path-sans-slash: `directory-file-name` removes the trailing "/"
+    ;; path-comp      : the path component at the very end (may be a dir)
+    (let* ((path-sans-slash (directory-file-name file-path))
+           (path-comp       (file-name-nondirectory path-sans-slash)))
+      (if (> (length path-comp) 0)
+          ;; Recursively split the parent directory and append
+          ;; our directory component
+          (let ((parent-dir-splitup
+                 (split-path (file-name-directory path-sans-slash))))
+            (append parent-dir-splitup (list path-comp)))
+        ;; Stop recursion at the root directory. This can be "/" or it
+        ;; can be a tramp prefix (eg: "/sshx:juster.info:/").
+        (list (file-name-directory path-sans-slash))))))
 
 (defun join-path (path-comps)
-  (let ((file-path ""))
-    (while path-comps
-      (setq file-path (concat file-path
-                              (file-name-as-directory (car path-comps)))
-            path-comps (cdr path-comps)))
-    (directory-file-name file-path)))
+  (directory-file-name
+   (mapconcat (lambda (path-component)
+                (file-name-as-directory path-component))
+              path-comps "")))
 
 (defun perl-dist-mod-path (dist-name)
   (let ((dist-comps (split-string dist-name "-")))
@@ -129,104 +139,9 @@ Will not move the position at the start to the left."
 (defun perl-buffer-module-name (&optional buffer)
   (unless buffer
     (setq buffer (current-buffer)))
-  (condition-case nil
-      (perl-guess-module-name
-       (or (buffer-file-name)
-           (error "Current buffer has no file name")))
-    (error "")))
-
-(defun find-perl-project-dir (file-abs-path)
-  "Splits the path into the project basedir and the file path
-relative to the project basedir
-
-FILE-ABS-PATH is the absolute path to a file/dir under the project dir.
-Returns a cons cell with the project and file paths as
-\( ABSOLUTE-PROJECT-DIR-PATH . RELATIVE-PROJECT-PATH \)"
-  (let ((perl-dir-list
-         (reverse
-          (split-string (file-name-directory file-abs-path) "[/\\]" t)))
-        (popped-dirs (list (file-name-nondirectory file-abs-path))))
-    ;; Not windows safe?
-    (catch 'found-project-dir
-      (while perl-dir-list
-        (let ((dir-to-check
-               (concat "/"
-                       (join-string "/" (reverse perl-dir-list))
-                       "/")))
-          (when (or (file-exists-p (concat dir-to-check "Makefile.PL"))
-                    (file-exists-p (concat dir-to-check "Build.PL")))
-            (throw 'found-project-dir
-                   (cons dir-to-check
-                         (join-string "/" popped-dirs))))
-          (setq popped-dirs (cons (car perl-dir-list) popped-dirs))
-          (setq perl-dir-list (cdr perl-dir-list))))
-      nil)))
-
-(defun perl-buffer-package-name (&optional file-path)
-  (debug)
-  (when (or file-path (setq file-path (buffer-file-name)))
-    (if (not (string-match ".pm$" file-path)) nil
-      (setq file-path (substring file-path 0 (- (length file-path) 4)))
-      (let ((split-project-dir (find-perl-project-dir file-path)))
-        (if (not split-project-dir) nil
-            (let (project-file
-                  (replace-regexp-in-string
-                   "^lib/" "" (cdr split-project-dir)))
-              (mapconcat (lambda (x) x)
-                         (split-string "/" t)
-                         "::")))))))
-        
-
-
-;; This is an old version, now we can use find-perl-project-dir
-;;
-;; (defun perl-guess-package-name (dir-path)
-;;   "Make a package name out of dirnames after the last 'lib' directory."
-;;   (let* ((prune-func (lambda (dir-list)
-;;                        (when dir-list
-;;                          (funcall prune-func (cdr dir-list))
-;;                          (when (string= (car dir-list) "lib")
-;;                            (throw 'guessed-package (cdr dir-list)))
-;;                          dir-list)))
-;;          (split-dirs (delete ""
-;;                              (split-string
-;;                               (replace-regexp-in-string
-;;                                "\\.pm$" "" dir-path) "/")))
-;;          (name-components (catch 'guessed-package
-;;                             (funcall prune-func split-dirs))))
-;;     (join-string "::" name-components)))
-
-(defvar perl-module-template-history '())
-
-(defun perl-module-template (package-name base-class)
-  "Wraps a standard perl module template around existing code"
-  (interactive
-   (list
-    (read-from-minibuffer
-     (format "Package Name (default %s): "
-             (perl-guess-package-name (buffer-file-name))))
-    (read-from-minibuffer "Base Class (optional): ")))
-
-  (save-excursion
-    ;; Create the module header...
-    (let (( module-header
-            (format (join-string "\n" '("package %s;"
-                                        ""
-                                        "use warnings;"
-                                        "use strict;"
-                                        "%s"
-                                        ""))
-                    (if (= (length package-name) 0)
-                        (perl-guess-package-name (buffer-file-name))
-                      package-name)
-                    (if (> (length base-class) 0)
-                        (format "use base qw(%s);\n" base-class) "")) ))
-      (goto-char 0)
-      (insert module-header))
-
-    ;; Append the usual module footer: 1; and __END__ for POD afterwards
-    (goto-char (point-max))
-    (insert (join-string "\n" '("" "" "1;" "" "__END__" "")))))
+  (perl-guess-module-name
+   (or (buffer-file-name)
+       (error "Current buffer has no file name"))))
 
 (defun perl-hack-tidy-buffer ()
   (interactive)
@@ -406,5 +321,3 @@ is used."
       cperl-label-offset                t
       cperl-merge-trailing-else         nil
       cperl-tab-always-indent           t)
-
-(provide 'perlhacks)

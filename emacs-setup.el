@@ -80,3 +80,8 @@
   (require 'emud))
 
 (server-start) ; emacs server rocks!
+
+;; Tramp
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp nil))
