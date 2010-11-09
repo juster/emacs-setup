@@ -10,7 +10,8 @@
       (append (list emacs-setup-dir)
               (mapcar (lambda (path)
                         (concat emacs-setup-dir "/" path))
-                      '("egg" "yasnippet" "ergoemacs-keybindings"))
+                      '("egg" "yasnippet" "ergoemacs-keybindings"
+                        "ocaml"))
 	      load-path))
 
 ;; ErgoEmacs -- just the keybindings, load us quick!
@@ -20,6 +21,7 @@
 (ergoemacs-mode 1)
 (unless (boundp 'recenter-top-bottom)
   (defalias 'recenter-top-bottom 'recenter))
+(define-key global-map (kbd "M-\\") 'goto-line)
 
 ;; Disable toolbar and tabbar for Aquamacs
 (menu-bar-mode 0)
@@ -85,3 +87,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'backup-directory-alist
              (cons tramp-file-name-regexp nil))
+
+;; OCAML
+(require 'ocaml)
+(add-to-list 'auto-mode-alist '("\\.ml$" . caml-mode))
