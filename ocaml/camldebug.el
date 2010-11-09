@@ -283,8 +283,8 @@ buffer, then try to obtain the time from context around point."
 		   ((save-excursion
 		      (beginning-of-line 1)
 		      (looking-at "^Time : \\([0-9]+\\) - pc : [0-9]+ "))
-		    (string-to-int (match-string 1)))
-		   ((string-to-int (camldebug-format-command "%e"))))))
+		    (string-to-number (match-string 1)))
+		   ((string-to-number (camldebug-format-command "%e"))))))
 	(camldebug-call "goto" nil time)))
    (t
     (let ((module (camldebug-module-name (buffer-file-name)))
@@ -306,7 +306,7 @@ buffer, then try to obtain the time from context around point."
 				   " - module "
 				   module "$") nil t)
 			  (match-string 1)))))
-      (if address (camldebug-call "goto" nil (string-to-int address))
+      (if address (camldebug-call "goto" nil (string-to-number address))
 	(error "No time at %s at %s" module camldebug-goto-position))))))
 
 
@@ -364,12 +364,12 @@ around point."
 	   (arg (cond
 		 ((eobp)
 		  (save-excursion (re-search-backward bpline nil t))
-		  (string-to-int (match-string 1)))
+		  (string-to-number (match-string 1)))
 		 ((save-excursion
 		    (beginning-of-line 1)
 		    (looking-at bpline))
-		  (string-to-int (match-string 1)))
-		 ((string-to-int (camldebug-format-command "%e"))))))
+		  (string-to-number (match-string 1)))
+		 ((string-to-number (camldebug-format-command "%e"))))))
       (camldebug-call "delete" nil arg)))
    (t
     (let ((camldebug-delete-file
@@ -390,7 +390,7 @@ around point."
 		     camldebug-delete-file
 		     camldebug-delete-position)	  
 	    (camldebug-call "delete" nil
-			    (string-to-int camldebug-delete-output)))))))))  
+			    (string-to-number camldebug-delete-output)))))))))  
 
 (defun camldebug-complete-filter (string)
   (setq camldebug-filter-accumulator
@@ -521,7 +521,7 @@ the camldebug commands `cd DIR' and `directory'."
 	    (if (char-equal ?H (aref camldebug-filter-accumulator
 				     (1+ (1+ begin)))) nil
 	      (list (match-string 2 camldebug-filter-accumulator)
-		    (string-to-int
+		    (string-to-number
 		     (match-string 3 camldebug-filter-accumulator))
 		    (string= "before"
 			     (match-string 4

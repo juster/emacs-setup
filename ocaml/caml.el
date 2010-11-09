@@ -658,10 +658,10 @@ possible."
 	   (goto-char (window-point (get-buffer-window (current-buffer))))
 	   (if (looking-at caml-error-chars-regexp)
 	       (setq beg
-		     (string-to-int
+		     (string-to-number
 		      (buffer-substring (match-beginning 1) (match-end 1)))
 		     end
-		     (string-to-int
+		     (string-to-number
 		      (buffer-substring (match-beginning 2) (match-end 2)))))))
        (cond (beg
               (beginning-of-line)

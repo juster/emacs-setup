@@ -239,8 +239,8 @@ to the end.
           (cond ((re-search-forward
                   " *Characters \\([01-9][01-9]*\\)-\\([1-9][01-9]*\\):\n[^W]"
                   (point-max) t)
-                 (setq beg (+ orig (string-to-int (caml-match-string 1))))
-                 (setq end (+ orig (string-to-int (caml-match-string 2))))
+                 (setq beg (+ orig (string-to-number (caml-match-string 1))))
+                 (setq end (+ orig (string-to-number (caml-match-string 2))))
                  (switch-to-buffer buf)
                  (goto-char beg)
                  (setq error beg)
