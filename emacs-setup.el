@@ -93,3 +93,4 @@
 ;; OCAML
 (require 'ocaml)
 (add-to-list 'auto-mode-alist '("\\.ml$" . caml-mode))
+(load "caml-font")
