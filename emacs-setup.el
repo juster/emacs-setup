@@ -60,6 +60,8 @@
 ;; Don't use terminal mode much anymore but I will leave this
 (add-hook 'term-mode-hook (lambda () (term-set-escape-char ?\C-x)))
 
+(setq diff-switches "-u")
+
 ;; Lua
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
