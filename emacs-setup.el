@@ -103,3 +103,5 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-hide-leading-stars t)
+
+(require 'ack)
