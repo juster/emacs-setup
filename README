@@ -1,29 +1,35 @@
--*- Org -*-
+README -*- Org -*-
 
 * Introduction
+  This is my emacs configuration directory. Instead of having a large
+  and cluttered ~/.emacs file I put everything into emacsrc.el. The
+  different customizations for each emacsen I use stay in the ~/.emacs
+  file. The cross-platform code goes into emascrc.el. I clone this
+  repo into my ~/emacs directory and off I go! At least I hope so.
 
-This is my emacs configuration directory. Instead of having a large
-and cluttered ~/.emacs file I put everything into emacsrc.el. The
-different customizations for each emacsen I use stay in the ~/.emacs
-file. The cross-platform code goes into emascrc.el. I clone this
-repo into my ~/emacs directory and off I go! At least I hope so.
-
-In my ~/.emacs file all I do is this:
-(setq emacs-setup-dir "~/emacs")
-(load "/emacs/emacs-setup"))
-(load "screensetup"))
+  In my ~/.emacs file all I do is this:
+  :(setq emacs-setup-dir "~/emacs")
+  :(load "/emacs/emacs-setup"))
+  :(load "screensetup"))
 
 * Screen
+  I use screen alot on my remote server logins. The screen code is
+  inside screensetup.el. I have bash_profile setup so that a detached
+  screen is reconnected when I login. If no screen is running a new
+  screen session is started. I have aliased 'emacs' to run 'emacsclient'
+  and create a new screen for the emacsclient.
 
-I use screen alot on my remote server logins. The screen code is
-inside screensetup.el. I have bash_profile setup so that a detached
-screen is reconnected when I login. If no screen is running a new
-screen session is started. I have aliased 'emacs' to run 'emacsclient'
-and create a new screen for the emacsclient.
+  Maybe one day I will copy/paste the following webpage for reference:
+  http://taint.org/wk/RemoteLoginAutoScreen
 
-Maybe one day I will copy/paste the following webpage for reference:
-http://taint.org/wk/RemoteLoginAutoScreen
+* Installation
+** Org
+   org-mode needs to be installed inside of this directory. The
+   way I like to do it is extract the tarball and then create a symlink
+   to the extracted directory called "org".
+   
+   Tracking org-mode with git proved to be too laborious for multiple
+   emacs setups.
 
 * Author
-
-Justin Davis <jrcd83@gmail.com>
+  Justin Davis <jrcd83@gmail.com>
