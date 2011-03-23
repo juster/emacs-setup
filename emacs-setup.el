@@ -10,9 +10,9 @@
       (append (list emacs-setup-dir)
               (mapcar (lambda (path)
                         (concat emacs-setup-dir "/" path))
-                      '("yasnippet" "ergoemacs-keybindings"
+                      '("egg" "yasnippet" "ergoemacs-keybindings"
                         "ocaml" "org/lisp" "org/contrib/lisp"))
-              load-path))
+	      load-path))
 
 ;; ErgoEmacs -- just the keybindings, load us quick!
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -33,6 +33,10 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory (make-setup-dir "snippets"))
+
+;; Emacs Got Git!
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'egg)
 
 ;; Generic Emacs Stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
