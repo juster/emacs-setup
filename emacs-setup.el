@@ -8,10 +8,10 @@
 
 (setq load-path
       (append (list emacs-setup-dir)
-              (mapcar (lambda (path)
-                        (concat emacs-setup-dir "/" path))
+              (mapcar (symbol-function 'make-setup-dir)
                       '("egg" "yasnippet" "ergoemacs-keybindings"
-                        "ocaml" "org/lisp" "org/contrib/lisp"))
+                        "org/lisp" "org/contrib/lisp"
+                        "tuareg"))
 	      load-path))
 
 ;; ErgoEmacs -- just the keybindings, load us quick!
@@ -91,9 +91,9 @@
              (cons tramp-file-name-regexp nil))
 
 ;; OCAML
-(require 'ocaml)
-(add-to-list 'auto-mode-alist '("\\.ml[yli]?$" . caml-mode))
-(load "caml-font")
+(add-to-list 'auto-mode-alist '("\\.ml[yli]?$" . tuareg-mode))
+(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+(autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
 ;; Org-mode
 (require 'org-install)
