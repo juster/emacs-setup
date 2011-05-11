@@ -3,7 +3,7 @@
 # --
 #!/usr/bin/env perl
 
-use warnings;
+use warnings 'FATAL' => 'all';
 use strict;
 
 $0

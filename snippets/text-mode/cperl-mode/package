@@ -3,7 +3,7 @@
 # --
 package ${1:`(perl-buffer-module-name)`};
 
-use warnings;
+use warnings 'FATAL' => 'all';
 use strict;
 
 $0
